@@ -12,11 +12,11 @@ spring:
   datasource:
     url: jdbc:sqlserver://netcompany.database.windows.net:1433;database=BD_Products;encrypt=true;trustServerCertificate=false;loginTimeout=30;
     username: netcompany
-    password: "${DB_PASSWORD}" # Usa la misma variable de entorno o contraseña
+    password: "${DB_PASSWORD}"
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     hibernate:
-      ddl-auto: update # Crea/actualiza la tabla de productos automáticamente
+      ddl-auto: update
     show-sql: true
 
 # Configuración de Resilience4j
@@ -38,4 +38,4 @@ resilience4j:
   timelimiter:
     instances:
       products:
-        timeout-duration: 2s
+        timeout-duration: 5s
