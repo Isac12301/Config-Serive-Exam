@@ -1,0 +1,41 @@
+server:
+  port: 8102
+  servlet:
+    context-path: /api/products
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://netcompany.database.windows.net:1433;database=BD_Products;encrypt=true;trustServerCertificate=false;loginTimeout=30;
+    username: netcompany
+    password: "${DB_PASSWORD}" # Usa la misma variable de entorno o contraseña
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      ddl-auto: update # Crea/actualiza la tabla de productos automáticamente
+    show-sql: true
+
+# Configuración de Resilience4j
+resilience4j:
+  circuitbreaker:
+    instances:
+      products:
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 3
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 5
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 2
+  retry:
+    instances:
+      products:
+        max-attempts: 3
+        wait-duration: 1s
+  timelimiter:
+    instances:
+      products:
+        timeout-duration: 2s
