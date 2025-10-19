@@ -1,0 +1,29 @@
+server:
+  port: 8101
+  servlet:
+    context-path: /api/users
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://netcompany.database.windows.net:1433;database=DB_Users;encrypt=true;trustServerCertificate=false;loginTimeout=30;
+    username: netcompany
+    password: "${DB_PASSWORD}"
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  spring:
+    security:
+      oauth2:
+        client:
+          registration:
+            google:
+              client-id: ${GOOGLE_CLIENT_ID}
+              client-secret: ${GOOGLE_CLIENT_SECRET}
